@@ -1,0 +1,12 @@
+import cv2
+
+# Load the image
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is not None:
+    # Perform 180-degree rotation
+    rotated_180 = cv2.rotate(img, cv2.ROTATE_180)
+
+    cv2.imshow('180 Degree Rotation', rotated_180)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
