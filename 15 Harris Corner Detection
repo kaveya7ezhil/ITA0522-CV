@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+# 1. Read the image
+image_path = r'C:\Users\HP\Documents\openCV\sample.jpg'
+img = cv2.imread(image_path)
+
+if img is None:
+    print("Error: Image not found.")
+else:
+    # 2. Harris Corner Detection works on grayscale images in float32 format
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = np.float32(gray)
+
+    # 3. Apply the Harris Corner Detection function
+    # blockSize - size of neighborhood considered for corner detection
+    # ksize     - aperture parameter for the Sobel operator
+    # k         - Harris detector free parameter in the equation
+    dst = cv2.cornerHarris(gray, blockSize=2, ksize=3, k=0.04)
+
+    # 4. Result is dilated for marking the corners (makes them easier to see)
+    dst = cv2.dilate(dst, None)
+
+    # 5. Threshold for an optimal value, marking the corners in Red
+    # We define that a pixel is a corner if it's greater than 1% of the max Harris value
+    img[dst > 0.01 * dst.max()] = [0, 0, 255]
+
+    # 6. Display the result
+    cv2.imshow('Harris Corner Detection', img)
+
+    if cv2.waitKey(0) & 0xff == 27:
+        cv2.destroyAllWindows()
