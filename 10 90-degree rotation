@@ -1,0 +1,17 @@
+import cv2
+
+# 1. Load the image
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is None:
+    print("Error: Could not find or open the image.")
+else:
+    rotated_img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
+
+    # 3. Display the results
+    cv2.imshow('Original Image', img)
+    cv2.imshow('90 Degree Clockwise', rotated_img)
+
+    # Wait for key press and cleanup
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
