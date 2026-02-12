@@ -1,0 +1,31 @@
+import cv2
+import numpy as np
+
+# 1. Load the image
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is None:
+    print("Error: Could not load image.")
+else:
+    # 2. Define 4 corners of the object in the source image
+    # Note: These coordinates depend on your specific image
+    # Format: [x, y]
+    src_pts = np.float32([[56, 65], [368, 52], [28, 387], [389, 390]])
+
+    # 3. Define the 4 corners of the desired output (usually a rectangle)
+    # We want to map the source points to a 300x300 square
+    dst_pts = np.float32([[0, 0], [300, 0], [0, 300], [300, 300]])
+
+    # 4. Get the Perspective Transformation Matrix (3x3)
+    matrix = cv2.getPerspectiveTransform(src_pts, dst_pts)
+
+    # 5. Apply the transformation
+    # The result will be resized to (300, 300) as defined in dst_pts
+    perspective_result = cv2.warpPerspective(img, matrix, (300, 300))
+
+    # 6. Display the results
+    cv2.imshow('Original', img)
+    cv2.imshow('Perspective Wrap', perspective_result)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
