@@ -1,0 +1,18 @@
+import cv2
+
+# 1. Load the image using a raw string for the path
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is None:
+    print("Error: Could not open image. Check the file path.")
+else:
+    # 2. Perform 270-degree clockwise rotation
+    # In OpenCV, ROTATE_90_COUNTERCLOCKWISE is the same as 270 clockwise
+    rotated_270 = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+    # 3. Display the result
+    cv2.imshow('Original', img)
+    cv2.imshow('270 Degree CW Rotation', rotated_270)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
