@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+# 1. Load the image
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is None:
+    print("Error: Could not load image.")
+else:
+    rows, cols, ch = img.shape
+
+    # 2. Define three points in the original image
+    # These represent the (x, y) coordinates of three corners/landmarks
+    pts1 = np.float32([[50, 50], [200, 50], [50, 200]])
+
+    # 3. Define where those three points should move to in the output
+    # By shifting these, you create rotation, scaling, or shearing
+    pts2 = np.float32([[10, 100], [200, 50], [100, 250]])
+
+    # 4. Get the Affine Transformation Matrix
+    matrix = cv2.getAffineTransform(pts1, pts2)
+
+    # 5. Apply the transformation
+    # The third argument is the size of the output image (width, height)
+    affine_result = cv2.warpAffine(img, matrix, (cols, rows))
+
+    # 6. Display the result
+    cv2.imshow('Original Image', img)
+    cv2.imshow('Affine Transformation', affine_result)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
