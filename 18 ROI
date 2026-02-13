@@ -1,0 +1,21 @@
+import cv2
+
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+
+if img is not None:
+    # Your desired coordinates
+    y, x, h, w = 100, 200, 150, 150
+    
+    # 1. Crop the ROI
+    roi = img[y:y+h, x:x+w]
+    
+    # 2. Get ACTUAL dimensions of the result
+    # (This prevents the broadcast error if the image was too small to give you 150x150)
+    actual_h, actual_w = roi.shape[:2]
+    
+    # 3. Paste using the ACTUAL dimensions
+    img[0:actual_h, 0:actual_w] = roi
+
+    cv2.imshow('Fixed Paste', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
