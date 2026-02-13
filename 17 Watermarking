@@ -1,0 +1,39 @@
+import cv2
+import numpy as np
+
+# 1. Load the main image and the watermark (logo)
+img = cv2.imread(r'C:\Users\HP\Documents\openCV\sample.jpg')
+watermark = cv2.imread(r'C:\Users\HP\Documents\openCV\watermark.jpg') # Use a logo image
+
+if img is None or watermark is None:
+    print("Error: One of the images was not found.")
+else:
+    # 2. Resize watermark to be a fraction of the main image (e.g., 20% width)
+    percent = 20
+    width = int(img.shape[1] * percent / 100)
+    height = int(watermark.shape[0] * width / watermark.shape[1])
+    watermark = cv2.resize(watermark, (width, height))
+
+    # 3. Define the ROI (Region of Interest) at the bottom-right corner
+    h_img, w_img, _ = img.shape
+    h_wm, w_wm, _ = watermark.shape
+    
+    top_y = h_img - h_wm - 20  # 20 pixels padding from bottom
+    left_x = w_img - w_wm - 20 # 20 pixels padding from right
+    bottom_y = h_img - 20
+    right_x = w_img - 20
+
+    roi = img[top_y:bottom_y, left_x:right_x]
+
+    # 4. Blend the watermark into the ROI
+    # Parameters: (ROI, alpha, Watermark, beta, gamma)
+    # alpha=0.6 (60% background), beta=0.4 (40% watermark)
+    result = cv2.addWeighted(roi, 0.6, watermark, 0.4, 0)
+
+    # 5. Place the blended ROI back into the original image
+    img[top_y:bottom_y, left_x:right_x] = result
+
+    # 6. Save and Show
+    cv2.imshow('Watermarked Image', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
