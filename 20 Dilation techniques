@@ -1,0 +1,28 @@
+import cv2
+import numpy as np
+
+# 1. Load the image
+path = r'C:\Users\HP\Documents\openCV\sample.jpg'
+img = cv2.imread(path)
+
+if img is None:
+    print("Error: Image not found.")
+else:
+    # 2. Convert to Grayscale
+    # Morphological operations are typically performed on binary or grayscale images
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # 3. Create a Kernel
+    # The size (5,5) determines how much the image expands.
+    kernel = np.ones((5, 5), np.uint8)
+
+    # 4. Perform Dilation
+    # iterations=1 defines the number of times dilation is applied
+    dilation = cv2.dilate(gray, kernel, iterations=1)
+
+    # 5. Display Results
+    cv2.imshow('Original Gray', gray)
+    cv2.imshow('Dilation Result', dilation)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
